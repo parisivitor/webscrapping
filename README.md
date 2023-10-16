@@ -12,8 +12,8 @@ O projeto foi desenvolvido seguindo os princípios de SOLID, Domain-Driven Desig
 ## Camadas
 
 ### Domain:
-- Entidades: Nesta camada, estão as entidades principais que representam os conceitos do domínio. SOL, CARAs, TAFs e METARs, que são partes informativas de um Aeródromo
-- Factory: Utilizamos o padrão de fábrica para criar instâncias de entidades de forma mais encapsulada. Por exemplo, a classe "AeródromoFactory" pode ser responsável por criar instâncias de "Aeródromo" preenchidas com informações de Sol, Cartas, TAF e METAR.
+- Entidades: Nesta camada, estão as entidades principais que representam os conceitos do domínio. SOL, CARTAs, TAFs e METARs, que são partes informativas de um Aeródromo
+- Factory: Utilizamos o padrão de fábrica para criar instâncias de entidades de forma mais encapsulada. Por exemplo, a classe "AeródromoFactory" é responsável por criar instâncias de "Aeródromo" preenchidas com informações de Sol, Cartas, TAF e METAR.
 - Scrap Interface: Implementei a inversão de dependências nesta camada para evitar o acoplamento direto das entidades com bibliotecas de scraping. Isso permite que as entidades sejam independentes e facilmente testáveis.
 
 ### Application:
