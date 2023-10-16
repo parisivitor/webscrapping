@@ -1,9 +1,9 @@
-from domain.shared.scrapper import Scrapper
+from domain.aerodromo.scrap_interface.i_scrap_taf_metar import IScrapTafMetar
 import pytaf
 from translate import Translator
 from concurrent.futures import ThreadPoolExecutor
 
-class TafMetar(Scrapper):
+class TafMetar():
     icao: str
     metar_code: str
     metar_text: str
@@ -13,12 +13,11 @@ class TafMetar(Scrapper):
     taf_text_pt: str
 
 
-    def __init__(self, icao) -> None:
+    def __init__(self, icao, scrap_taf_metar: IScrapTafMetar) -> None:
         super().__init__()
-        self.icao = icao
         print('Fazendo scraping para pegar TAF/METAR...')
-        self.metar_code , self.taf_code = self.get_taf_metar()
-        self.close()
+        self.metar_code , self.taf_code = scrap_taf_metar.get_taf_metar(icao)
+
         if self.metar_code and self.taf_code:
             with ThreadPoolExecutor(max_workers=2) as executor:
                 print('Decodificando e Traduzindo METAR...')
@@ -41,17 +40,17 @@ class TafMetar(Scrapper):
             self.taf_text_pt = self.translate(taf=True)
 
 
-    def get_taf_metar(self):
-        url = f'https://aisweb.decea.mil.br?i=aerodromos&codigo={self.icao}'
-        _, soup = self.scraping(url)
+    # def get_taf_metar(self):
+    #     url = f'https://aisweb.decea.mil.br?i=aerodromos&codigo={self.icao}'
+    #     _, soup = self.scraping(url)
 
-        metar = soup.find('h5', string='METAR').next_sibling.next_sibling.text
-        taf = soup.find('h5', string='TAF').next_sibling.next_sibling.text
+    #     metar = soup.find('h5', string='METAR').next_sibling.next_sibling.text
+    #     taf = soup.find('h5', string='TAF').next_sibling.next_sibling.text
 
-        metar_code = f"METAR {self.icao} {metar}" if metar else None
-        taf_code = f"TAF {self.icao} {taf}" if taf else None
+    #     metar_code = f"METAR {self.icao} {metar}" if metar else None
+    #     taf_code = f"TAF {self.icao} {taf}" if taf else None
 
-        return metar_code, taf_code
+    #     return metar_code, taf_code
 
 
     def decode(self, code):

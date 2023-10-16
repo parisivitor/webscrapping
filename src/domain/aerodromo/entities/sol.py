@@ -1,43 +1,13 @@
-from domain.shared.scrapper import Scrapper
-import datetime
+from domain.aerodromo.scrap_interface.i_scrap_sol import IScrapSol
 from typing import Dict
 
-
-class Sol(Scrapper):
+class Sol():
     infos: Dict
     _icao_is_valid: bool
 
-    def __init__(self, icao):
+    def __init__(self, icao, scrap_sol: IScrapSol):
         super().__init__()
-        self.infos = self.get_hour_sunset_sunrise(icao)
-        self.close()
-
-    def get_hour_sunset_sunrise(self, icao):
-        url = 'https://aisweb.decea.mil.br/?i=aerodromos&p=sol'
-        page, _ = self.scraping(url)
-
-        print('Fazendo scraping para pegar Nascer e por do Sol...')
-        input_icao = page.locator('input[name="icaocode"]')
-        input_icao.fill(icao)
-
-        today = datetime.date.today().strftime('%d%m%Y')
-        input_initial_date = page.locator('input[name="dt_i"]')
-        input_initial_date.fill(today)
-
-        input_end_date = page.locator('input[name="dt_f"]')
-        input_end_date.fill(today)
-
-        input_end_date.press('Enter')
-        page.wait_for_load_state('load')
-
-        self._icao_is_valid =  not page.get_by_text('O aeródromo não foi encontrado.').is_visible()
-
-        if not self._icao_is_valid:
-            return
-
-        thead = page.locator('thead').inner_text().strip().split('\t')
-        tbody = page.locator('tbody').inner_text().strip().split('\t')
-        return dict(zip(thead, tbody))
+        self.infos, self._icao_is_valid = scrap_sol.get_hour_sunset_sunrise(icao)
 
     def icao_is_valid(self):
         return self._icao_is_valid

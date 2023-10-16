@@ -4,18 +4,24 @@ from domain.aerodromo.entities.sol import Sol
 
 from concurrent.futures import ThreadPoolExecutor
 
+from application.service.scrap_carta import ScrapCarta
+from application.service.scrap_taf_metar import ScrapTafMetar
+from application.service.scrap_sol import ScrapSol
+
 import time
 class AerodromoFactory():
 
     @staticmethod
     def create_aerodromo(icao: str):
-        icao = icao
-        sol =  Sol(icao)
+        carta_serice = ScrapCarta()
+        taf_metar_service = ScrapTafMetar()
+        sol_service = ScrapSol()
+        sol =  Sol(icao, sol_service)
 
         if sol.icao_is_valid():
             with ThreadPoolExecutor(max_workers=2) as executor:
-                future_taf_metar = executor.submit(TafMetar, icao)
-                future_cartas = executor.submit(Cartas, icao)
+                future_taf_metar = executor.submit(TafMetar, icao, taf_metar_service)
+                future_cartas = executor.submit(Cartas, icao, carta_serice)
 
                 taf_metar = future_taf_metar.result()
                 cartas = future_cartas.result()
