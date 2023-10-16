@@ -39,20 +39,6 @@ class TafMetar():
             self.taf_text = self.decode(self.taf_code)
             self.taf_text_pt = self.translate(taf=True)
 
-
-    # def get_taf_metar(self):
-    #     url = f'https://aisweb.decea.mil.br?i=aerodromos&codigo={self.icao}'
-    #     _, soup = self.scraping(url)
-
-    #     metar = soup.find('h5', string='METAR').next_sibling.next_sibling.text
-    #     taf = soup.find('h5', string='TAF').next_sibling.next_sibling.text
-
-    #     metar_code = f"METAR {self.icao} {metar}" if metar else None
-    #     taf_code = f"TAF {self.icao} {taf}" if taf else None
-
-    #     return metar_code, taf_code
-
-
     def decode(self, code):
         code = pytaf.TAF(code)
         return pytaf.Decoder(code).decode_taf()

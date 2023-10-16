@@ -3,5 +3,5 @@ from typing import List
 
 class IScrapTafMetar(ABC):
     @abstractmethod
-    def get_taf_metar(self, input: str) -> List:
+    def get_taf_metar(input: str) -> List:
         pass
