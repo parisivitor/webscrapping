@@ -12,14 +12,16 @@ O projeto foi desenvolvido seguindo os princípios de SOLID, Domain-Driven Desig
 ## Camadas
 
 ### Domain:
-- Entidades: Nesta camada, estão as entidades principais que representam os conceitos do domínio. Por exemplo, pode haver uma entidade chamada "Aeródromo" que possui informações sobre SOL, CARAs, TAFs e METARs.
-- Factory: Utilizamos o padrão de fábrica para criar instâncias de entidades de forma mais encapsulada. Por exemplo, a classe "AeródromoFactory" pode ser responsável por criar instâncias de "Aeródromo" preenchidas com informações relevantes.
-- Scrap Interface: Implementamos a inversão de dependências nesta camada para evitar o acoplamento direto das entidades com bibliotecas de scraping. Isso permite que as entidades sejam independentes e facilmente testáveis.
+- Entidades: Nesta camada, estão as entidades principais que representam os conceitos do domínio. SOL, CARAs, TAFs e METARs, que são partes informativas de um Aeródromo
+- Factory: Utilizamos o padrão de fábrica para criar instâncias de entidades de forma mais encapsulada. Por exemplo, a classe "AeródromoFactory" pode ser responsável por criar instâncias de "Aeródromo" preenchidas com informações de Sol, Cartas, TAF e METAR.
+- Scrap Interface: Implementei a inversão de dependências nesta camada para evitar o acoplamento direto das entidades com bibliotecas de scraping. Isso permite que as entidades sejam independentes e facilmente testáveis.
 
 ### Application:
 - Nesta camada, a implementação real do scraping é feita nos serviços. Cada serviço é responsável por executar uma operação de scraping específica no sistema.
 - E a interface CLI que o usuario usará para integagir com o sistema
 
+### Extra:
+* Foi utilizado multthread para melhorar a performance do scraping de uma media de 15s para media de 6~8s
 
 # Guia de Execução da Aplicação
 
@@ -45,6 +47,10 @@ Uma vez dentro do contêiner, execute o aplicativo Python.
 ```bash
 python src/application/command_line_interface.py
 ```
+
+
+### Debitos Técnicos:
+* Test automatizados, unitarios e de integração
 
 ## Autor:
 ```
