@@ -6,4 +6,3 @@ services:
     container_name: qipu-scraping-app
     volumes:
     - .:/home/app
-    command: tail -f /dev/null

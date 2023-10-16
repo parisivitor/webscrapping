@@ -29,18 +29,12 @@ RUN apt update && apt install -y \
         libcairo2\
         libasound2
 
-# Criação do diretório de trabalho
 WORKDIR /home/app/
-
 
 ENV PYTHONPATH=${PYTHONPATH}/home/app/src
 
-# Instalação de dependências Python
 COPY requirements.txt /home/app
 RUN pip install -r requirements.txt
 RUN playwright install chromium
 
-# ENTRYPOINT ["playwright", "install", "chromium"]
-
 CMD [ "tail", "-f", "/dev/null" ]
-# CMD ["python", ""]

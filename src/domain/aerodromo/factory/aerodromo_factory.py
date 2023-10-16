@@ -9,7 +9,7 @@ class AerodromoFactory():
 
     @staticmethod
     def create_aerodromo(icao: str):
-        icao = icao.upper()
+        icao = icao
         sol =  Sol(icao)
 
         if sol.icao_is_valid():
